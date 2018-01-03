@@ -90,8 +90,10 @@ class Sorty {
                 return curr;
             }
             const prevX = prev.getBoundingClientRect().left;
+            const prevDelta = Math.abs(prevX - x);
             const currX = curr.getBoundingClientRect().left;
-            if (Math.abs(currX - x) < Math.abs(prevX - x)) {
+            const currDelta = Math.abs(currX - x);
+            if (currDelta < prevDelta) {
                 return curr;
             }
             return prev;

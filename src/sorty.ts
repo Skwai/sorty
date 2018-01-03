@@ -117,9 +117,11 @@ class Sorty {
       }
 
       const prevX = prev.getBoundingClientRect().left
+      const prevDelta = Math.abs(prevX - x)
       const currX = curr.getBoundingClientRect().left
+      const currDelta = Math.abs(currX - x)
 
-      if (Math.abs(currX - x) < Math.abs(prevX - x)) {
+      if (currDelta < prevDelta) {
         return curr
       }
 
