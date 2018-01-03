@@ -89,7 +89,9 @@ class Sorty {
             if (!prev) {
                 return curr;
             }
-            if (x > curr.getBoundingClientRect().left) {
+            const prevX = prev.getBoundingClientRect().left;
+            const currX = curr.getBoundingClientRect().left;
+            if (Math.abs(currX - x) < Math.abs(prevX - x)) {
                 return curr;
             }
             return prev;
