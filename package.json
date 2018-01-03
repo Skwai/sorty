@@ -1,0 +1,20 @@
+{
+  "name": "sorty",
+  "version": "1.0.0",
+  "description": "A TypeScript sortable library",
+  "main": "dist/sorty.js",
+  "repository": "git@github.com:Skwai/sorty.git",
+  "author": "Cameron Jensen <me@skwai.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "tslint src"
+  },
+  "devDependencies": {
+    "tslint": "^5.8.0",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.6.2"
+  }
+}
