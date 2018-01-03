@@ -9,7 +9,6 @@ class Sorty {
     constructor(element, options = {}) {
         this.element = null;
         this.placeholder = null;
-        this.placeholderX = null;
         this.handle = null;
         this.options = defaults;
         this.element = element;
@@ -29,9 +28,16 @@ class Sorty {
         Object.assign(el.style, { userSelect: 'none' });
         el.addEventListener('mousedown', this.dragstart, false);
     }
+    /** Remove */
+    orderChildren() {
+        this.children.forEach((el, index) => {
+            Object.assign(el.style, {
+                order: index
+            });
+        });
+    }
     dragstart(ev) {
         this.placeholder = ev.target;
-        this.placeholderX = this.placeholder.getBoundingClientRect().left;
         this.createHandle(ev.target);
         this.options.dragstart(ev);
     }
@@ -62,16 +68,15 @@ class Sorty {
         }
     }
     positionHandle(ev) {
-        const { handle, placeholder, placeholderX } = this;
-        const left = `${placeholderX}px`;
+        const { handle, placeholder } = this;
+        const left = `${placeholder.offsetLeft}px`;
         const top = `${placeholder.offsetTop}px`;
         const { clientX } = ev;
         const w = handle.clientWidth / 2;
-        const x = clientX - placeholderX - w;
+        const x = clientX - placeholder.getBoundingClientRect().left - w;
         const transform = `translate(${x}px)`;
         const nearest = this.getNearestChild(clientX);
         const nth = this.children.indexOf(nearest);
-        placeholder.style.order = String(nth);
         console.log(nth);
         Object.assign(handle.style, {
             top,

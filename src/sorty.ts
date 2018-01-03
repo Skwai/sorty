@@ -15,7 +15,6 @@ const defaults: SortyOptions = {
 class Sorty {
   element: HTMLElement = null
   placeholder: HTMLElement = null
-  placeholderX: number = null
   handle: HTMLElement = null
   options: SortyOptions = defaults
 
@@ -44,9 +43,17 @@ class Sorty {
     el.addEventListener('mousedown', this.dragstart, false)
   }
 
+  /** Remove */
+  orderChildren (): void {
+    this.children.forEach((el, index) => {
+      Object.assign(el.style, {
+        order: index
+      })
+    })
+  }
+
   dragstart (ev: Event): void {
     this.placeholder = ev.target as HTMLElement
-    this.placeholderX = this.placeholder.getBoundingClientRect().left
     this.createHandle(ev.target as HTMLElement)
     this.options.dragstart(ev)
   }
@@ -82,19 +89,18 @@ class Sorty {
   }
 
   positionHandle (ev: MouseEvent): void {
-    const { handle, placeholder, placeholderX } = this
+    const { handle, placeholder } = this
 
-    const left = `${placeholderX}px`
+    const left = `${placeholder.offsetLeft}px`
     const top = `${placeholder.offsetTop}px`
 
     const { clientX } = ev
     const w = handle.clientWidth / 2
-    const x = clientX - placeholderX - w
+    const x = clientX - placeholder.getBoundingClientRect().left - w
     const transform = `translate(${x}px)`
 
     const nearest = this.getNearestChild(clientX)
     const nth = this.children.indexOf(nearest)
-    placeholder.style.order = String(nth)
     console.log(nth)
 
     Object.assign(handle.style, {
